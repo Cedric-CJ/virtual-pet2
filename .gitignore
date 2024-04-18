@@ -1,0 +1,5 @@
+# Project exclude paths
+/virtual-pet-main/.gradle/
+/virtual-pet-main/build/
+/virtual-pet-main/build/classes/java/main/
+/virtual-pet-main/build/classes/java/test/
