@@ -1,5 +1,6 @@
 package com.Pet;
 
+import com.Pet.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,48 +15,48 @@ public class PetService {
         return petRepository.findAll();
     }
 
-    public Pet createPet(String type, String name) {
+    public Pet createPet(String type, String name, String asciiArt) {
         Pet newPet = new Pet(name, type, "Generierte ASCII Art"); // 'Generierte ASCII Art' kann durch eine tatsächliche ASCII Art ersetzt werden
         return petRepository.save(newPet);
     }
 
-    public Pet getPetDetails(String name) {
-        return petRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Haustier nicht gefunden: " + name));
+    public Pet getPetDetails(Long petId) {
+        return petRepository.findById(petId)
+                .orElseThrow(() -> new RuntimeException("Haustier nicht gefunden: " + petId));
     }
 
-    public void essen(String name) {
-        Pet pet = getPetDetails(name);
+    public void essen(Long petId) {
+        Pet pet = getPetDetails(petId);
         pet.essengeben();
         petRepository.save(pet);
     }
 
-    public void trinken(String name) {
-        Pet pet = getPetDetails(name);
+    public void trinken(Long petId) {
+        Pet pet = getPetDetails(petId);
         pet.wassergeben();
         petRepository.save(pet);
     }
 
-    public void schlafen(String name) {
-        Pet pet = getPetDetails(name);
+    public void schlafen(Long petId) {
+        Pet pet = getPetDetails(petId);
         pet.schlafen();
         petRepository.save(pet);
     }
 
-    public void streicheln(String name) {
-        Pet pet = getPetDetails(name);
+    public void streicheln(Long petId) {
+        Pet pet = getPetDetails(petId);
         pet.streicheln();
         petRepository.save(pet);
     }
 
-    public void spielen(String name) {
-        Pet pet = getPetDetails(name);
+    public void spielen(Long petId) {
+        Pet pet = getPetDetails(petId);
         pet.spielen();
         petRepository.save(pet);
     }
 
-    public void duschen(String name) {
-        Pet pet = getPetDetails(name);
+    public void duschen(Long petId) {
+        Pet pet = getPetDetails(petId);
         pet.duschen();
         petRepository.save(pet);
     }

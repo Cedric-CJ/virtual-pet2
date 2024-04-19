@@ -3,11 +3,12 @@ package com.Pet;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
+
+import java.time.LocalDate;
 
 @Entity
 public class Pet {
-    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +19,7 @@ public class Pet {
     protected int durst;
     protected int energie;
     protected int komfort;
-
+    private LocalDate createdDate;
     private int lastFed;
     private int lastWatered;
     private int lastSlept;
@@ -32,6 +33,7 @@ public class Pet {
         this.name = name;
         this.type = type;
         this.asciiArt = asciiArt;
+        this.createdDate = LocalDate.now();
         this.hunger = 500;
         this.durst = 50;
         this.energie = 500;
@@ -91,11 +93,20 @@ public class Pet {
     public String getName(){
         return name;
     }
+
     public void spielen(){
         komfort = Math.min(komfort + 10, 100);
         lastPetted = 0;
         energie = Math.min(energie - 10, 100);
     };
+
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public String getType() {
         return type;

@@ -24,23 +24,19 @@ public class PetController {
     public UserRepository userRepository;
 
     @GetMapping("/{id}")
-    public Pet getPetById(@PathVariable Long id) {
-        return petRepository.findById(id).orElseThrow(() -> new RuntimeException("Pet not found"));
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<?> getAllPets() {
+    public ResponseEntity<Pet> getPetById(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(petService.getAllPets(), HttpStatus.OK);
+            Pet pet = petService.getPetDetails(id);
+            return ResponseEntity.ok(pet);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createPet(@RequestBody Pet pet) {
         try {
-            Pet newPet = petService.createPet(pet.getType(), pet.getName());
+            Pet newPet = petService.createPet(pet.getType(), pet.getName(), pet.getAsciiArt());
             return new ResponseEntity<>(newPet, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -63,9 +59,9 @@ public class PetController {
     }
 
     @GetMapping("/pet")
-    public ResponseEntity<?> getPetDetails(@RequestParam String name) {
+    public ResponseEntity<?> getPetDetails(@RequestParam Long petId) {
         try {
-            Pet pet = petService.getPetDetails(name);
+            Pet pet = petService.getPetDetails(petId);
             return ResponseEntity.ok().body(Map.of("status", "success", "data", pet));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", e.getMessage()));
@@ -73,9 +69,9 @@ public class PetController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<?> getPet(@PathVariable String name) {
+    public ResponseEntity<?> getPet(@PathVariable Long petId) {
         try{
-            Pet pet = petService.getPetDetails(name);
+            Pet pet = petService.getPetDetails(petId);
             return ResponseEntity.ok().body(Map.of("status", "success", "data", pet));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("status", "error", "message", e.getMessage()));
@@ -83,62 +79,62 @@ public class PetController {
     }
 
     @PostMapping("/{name}/feed")
-    public ResponseEntity<String> essen(@PathVariable String name) {
+    public ResponseEntity<String> essen(@PathVariable Long petId) {
         try {
-            petService.essen(name);
-            return ResponseEntity.ok("Haustier gefüttert: " + name);
+            petService.essen(petId);
+            return ResponseEntity.ok("Haustier gefüttert: " + petId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + name);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + petId);
         }
     }
 
     @PostMapping("/{name}/water")
-    public ResponseEntity<String> trinken(@PathVariable String name) {
+    public ResponseEntity<String> trinken(@PathVariable Long petId) {
         try {
-            petService.trinken(name);
-            return ResponseEntity.ok("Wasser gegeben an: " + name);
+            petService.trinken(petId);
+            return ResponseEntity.ok("Wasser gegeben an: " + petId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + name);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + petId);
         }
     }
 
     @PostMapping("/{name}/sleep")
-    public ResponseEntity<String> schlafen(@PathVariable String name) {
+    public ResponseEntity<String> schlafen(@PathVariable Long petId) {
         try {
-            petService.schlafen(name);
-            return ResponseEntity.ok("Haustier schläft jetzt: " + name);
+            petService.schlafen(petId);
+            return ResponseEntity.ok("Haustier schläft jetzt: " + petId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + name);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + petId);
         }
     }
 
     @PostMapping("/{name}/pet")
-    public ResponseEntity<String> streicheln(@PathVariable String name) {
+    public ResponseEntity<String> streicheln(@PathVariable Long petId) {
         try {
-            petService.streicheln(name);
-            return ResponseEntity.ok("Haustier gestreichelt: " + name);
+            petService.streicheln(petId);
+            return ResponseEntity.ok("Haustier gestreichelt: " + petId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + name);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + petId);
         }
     }
 
     @PostMapping("/{name}/clean")
-    public ResponseEntity<String> duschen(@PathVariable String name) {
+    public ResponseEntity<String> duschen(@PathVariable Long petId) {
         try {
-            petService.duschen(name);
-            return ResponseEntity.ok("Haustier geduscht: " + name);
+            petService.duschen(petId);
+            return ResponseEntity.ok("Haustier geduscht: " + petId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + name);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + petId);
         }
     }
 
     @PostMapping("/{name}/play")
-    public ResponseEntity<String> spielen(@PathVariable String name) {
+    public ResponseEntity<String> spielen(@PathVariable Long petId) {
         try {
-            petService.spielen(name);
-            return ResponseEntity.ok("Haustier spielt: " + name);
+            petService.spielen(petId);
+            return ResponseEntity.ok("Haustier spielt: " + petId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + name);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Haustier nicht gefunden: " + petId);
         }
     }
 }
