@@ -3,3 +3,6 @@
 /virtual-pet-main/build/
 /virtual-pet-main/build/classes/java/main/
 /virtual-pet-main/build/classes/java/test/
+/.idea
+/.gitignore
+/virtual-pet-main
